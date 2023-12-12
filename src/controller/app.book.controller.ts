@@ -7,7 +7,12 @@ export class AppBookController {
 
   @Get("book")
   getBook(): object {
-    return this.appBookService.getBook();
+    return {}
+  }
+
+  @Get()
+  getBooks(): object {
+    return this.appBookService.findAll();
   }
 
   @Post("book")
