@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/heath", function(req, res, next) {
+router.get("/health", function(req, res, next) {
     res.send("Service is Alive");
 });
 

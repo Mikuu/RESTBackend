@@ -8,8 +8,6 @@ const bookService = require("../services/book.service");
 router.post("/book", [
         check("title", "title must be provided").matches(/^[ a-zA-Z0-9]+$/),
         check("author", "author must be provided").matches(/^[ a-zA-Z]+$/),
-        check("price", "price must be provided").isNumeric,
-        check("publishedAt", "publishedAt must be provided").isDate,
     ],
     catchAsync(async (req, res, next) => {
         const errors = validationResult(req);
@@ -34,8 +32,15 @@ router.get("/book",
         }
 
         const book = await bookService.getBook(req.query.bid);
+        const bookData = {
+            bid: book.bid,
+            title: book.title,
+            author: book.author,
+            price: book.price,
+            publishedAt: book.publishedAt
+        }
 
-        return res.status(StatusCodes.OK).send(book);
+        return res.status(StatusCodes.OK).send(bookData);
     })
 );
 

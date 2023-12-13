@@ -4,19 +4,19 @@ const { bookUuid } = require("../utils/uuid.utils");
 
 const Book = new mongoose.model('Book', BookSchema);
 
-export const fetchBooks = async () => {
+const fetchBooks = async () => {
     return await Book.find({});
 };
 
-export const getBook = async (bid) => {
-    return await Node.findOne({bid});
+const getBook = async (bid) => {
+    return await Book.findOne({bid});
 };
 
-export const updateBook = async (filterOptions, updateOptions) => {
+const updateBook = async (filterOptions, updateOptions) => {
     return await Book.updateOne(filterOptions, updateOptions);
 };
 
-export const createBook = async (title, author, price, publishedAt) => {
+const createBook = async (title, author, price, publishedAt) => {
     const newBook = await Book();
     newBook.bid = bookUuid();
     newBook.title = title;
@@ -28,7 +28,7 @@ export const createBook = async (title, author, price, publishedAt) => {
     return newBook;
 };
 
-export const deleteBook = async (bid) => {
+const deleteBook = async (bid) => {
     const bookData = await Book.findOne({bid});
     if (!bookData) {
         return;
@@ -38,3 +38,11 @@ export const deleteBook = async (bid) => {
 
     return 1;
 };
+
+module.exports = {
+    fetchBooks,
+    getBook,
+    createBook,
+    deleteBook,
+    updateBook
+}

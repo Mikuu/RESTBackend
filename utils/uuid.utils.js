@@ -1,5 +1,9 @@
 const uuid = require("uuid");
 
-export const bookUuid = () => {
-    return "BID" + uuid.v4().replace(/-/g, "");
+const bookUuid = () => {
+    return "BID" + uuid.v4().replace(/-/g, "").toUpperCase();
 };
+
+module.exports = {
+    bookUuid
+}
