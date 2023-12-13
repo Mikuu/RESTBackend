@@ -1,5 +1,5 @@
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 export const bookUuid = () => {
-    return "BID" + uuid.v4().replace(/-/g, "");
+    return "BID" + uuidv4().replace(/-/g, "");
 };

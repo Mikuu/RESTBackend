@@ -1,5 +1,6 @@
-import {Controller, Delete, Get, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Post, Put} from '@nestjs/common';
 import { AppBookService } from '../service/app.book.service';
+import {CreateBookDto} from "../dto/create-book.dto";
 
 @Controller("books")
 export class AppBookController {
@@ -16,8 +17,8 @@ export class AppBookController {
   }
 
   @Post("book")
-  createBook(): object {
-    return {}
+  createBook(@Body() createBookDto: CreateBookDto) {
+    return this.appBookService.create(createBookDto);
   }
 
   @Put("book")
