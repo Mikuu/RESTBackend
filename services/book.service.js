@@ -13,7 +13,8 @@ const getBook = async (bid) => {
 };
 
 const updateBook = async (filterOptions, updateOptions) => {
-    return await Book.updateOne(filterOptions, updateOptions);
+    const res = await Book.updateOne(filterOptions, updateOptions);
+    return res.modifiedCount;
 };
 
 const createBook = async (title, author, price, publishedAt) => {
@@ -29,14 +30,8 @@ const createBook = async (title, author, price, publishedAt) => {
 };
 
 const deleteBook = async (bid) => {
-    const bookData = await Book.findOne({bid});
-    if (!bookData) {
-        return;
-    }
-
-    await Book.deleteOne({bid});
-
-    return 1;
+    const  res = await Book.deleteOne({bid});
+    return res.deletedCount;
 };
 
 module.exports = {

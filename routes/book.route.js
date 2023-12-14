@@ -32,17 +32,49 @@ router.get("/book",
         }
 
         const book = await bookService.getBook(req.query.bid);
-        const bookData = {
+        const bookData = book ? {
             bid: book.bid,
             title: book.title,
             author: book.author,
             price: book.price,
             publishedAt: book.publishedAt
-        }
+        } : {};
 
         return res.status(StatusCodes.OK).send(bookData);
     })
 );
+
+router.put("/book/:bid",
+    [
+        check("bid", "bid must be provided, accept letters in [a-zA-Z0-9]").matches(/^[a-zA-Z0-9]+$/),
+    ],
+    catchAsync(async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(StatusCodes.BAD_REQUEST).json(generalResponse(errors.array()).failed);
+        }
+
+        const modifiedCount = await bookService.updateBook({ bid: req.params.bid }, req.body);
+        return res.status(StatusCodes.OK).send({ modifiedCount });
+    })
+);
+
+router.delete("/book/:bid",
+    [
+        check("bid", "bid must be provided, accept letters in [a-zA-Z0-9]").matches(/^[a-zA-Z0-9]+$/),
+    ],
+    catchAsync(async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(StatusCodes.BAD_REQUEST).json(generalResponse(errors.array()).failed);
+        }
+
+        const deletedCount = await bookService.deleteBook(req.params.bid);
+        return res.status(StatusCodes.OK).send({ deletedCount });
+    })
+);
+
+
 
 
 module.exports = router;
