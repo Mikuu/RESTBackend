@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-depl
+  labels:
+    app: mongodb-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb-depl
+  template:
+    metadata:
+      labels:
+        app: mongodb-depl
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:6.0
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: mgadmin
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: mgadminpwd
+            - name: MONGO_INITDB_DATABASE
+              value: restabase
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongodb-initializer-vol
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mongodb-initializer-vol
+          hostPath:
+            path: /path/to/initializer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: mongodb-depl
+  ports:
+    - protocol: TCP
+      port: 27017
+
+
+
