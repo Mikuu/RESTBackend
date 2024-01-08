@@ -32,7 +32,7 @@ spec:
       volumes:
         - name: mongodb-initializer-vol
           hostPath:
-            path: /home/ariman/app/RESTBackend/deployment
+            path: /home/ariman/app/RESTBackend/database
 
 ---
 apiVersion: v1
