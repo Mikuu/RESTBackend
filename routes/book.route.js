@@ -44,6 +44,27 @@ router.get("/book",
     })
 );
 
+router.get("/", catchAsync(async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(StatusCodes.BAD_REQUEST).json(generalResponse(errors.array()).failed);
+        }
+
+        const books = await bookService.searchBooks({ author: req.query.author });
+        const bookData = books ? books.map(book => {
+            return {
+                bid: book.bid,
+                title: book.title,
+                author: book.author,
+                price: book.price,
+                publishedAt: book.publishedAt
+            }
+        }) : {};
+
+        return res.status(StatusCodes.OK).send(bookData);
+    })
+);
+
 router.put("/book/:bid",
     [
         check("bid", "bid must be provided, accept letters in [a-zA-Z0-9]").matches(/^[a-zA-Z0-9]+$/),

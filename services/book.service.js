@@ -8,6 +8,10 @@ const fetchBooks = async () => {
     return await Book.find({});
 };
 
+const searchBooks = async (condition) => {
+    return await Book.find(condition);
+};
+
 const getBook = async (bid) => {
     return await Book.findOne({bid});
 };
@@ -36,6 +40,7 @@ const deleteBook = async (bid) => {
 
 module.exports = {
     fetchBooks,
+    searchBooks,
     getBook,
     createBook,
     deleteBook,
