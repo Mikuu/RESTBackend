@@ -3,10 +3,7 @@ FROM node:21-alpine
 WORKDIR /usr/src/app
 
 COPY . .
-RUN npm install
-
-#ENV REST_DB_USERNAME=ariman
-#ENV REST_DB_PASSWORD=Password1
+RUN rm -rf node_modules && npm install
 
 EXPOSE 3128
 

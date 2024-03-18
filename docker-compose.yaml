@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+
+  restBackend-mongodb:
+    image: mongo:6
+    container_name: restBackend-mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mgadmin
+      - MONGO_INITDB_ROOT_PASSWORD=mgadminpwd
+      - MONGO_INITDB_DATABASE=restabase
+    networks:
+      - restBackend-network
+    volumes:
+      - "./database/initializer:/docker-entrypoint-initdb.d"
+
+  restBackend:
+    image: ariman/rest-backend:0.0.1
+    container_name: restBackend
+    depends_on:
+      - restBackend-mongodb
+    ports:
+      - "3128:3128"
+    environment:
+      - REST_DB_USERNAME=ariman
+      - REST_DB_PASSWORD=Password1
+      - REST_DB_HOST=restBackend-mongodb
+      - REST_DB_PORT=27017
+      - REST_ENV=containerized
+    networks:
+      - restBackend-network
+
+networks:
+  restBackend-network:
