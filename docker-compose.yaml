@@ -14,7 +14,7 @@ services:
       - "./database/initializer:/docker-entrypoint-initdb.d"
 
   restBackend:
-    image: ariman/rest-backend:0.0.3
+    image: ariman/rest-backend:0.0.4
     container_name: restBackend
     depends_on:
       - restBackend-mongodb

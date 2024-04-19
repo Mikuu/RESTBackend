@@ -1,1 +1,1 @@
-docker build -t rest-backend:0.0.3 .
+docker build -t rest-backend:0.0.4 .

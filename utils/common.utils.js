@@ -59,7 +59,7 @@ const catchAsync = (asyncFunction) => {
 };
 
 const airBook = {
-    bid: "BID-TEST-MODE-AIR",
+    bid: "BID0TEST0MODE0AIR000000000",
     title: "TITLE-TEST-MODE-AIR",
     author: "AUTHOR-TEST-MODE-AIR",
     price: 9090950,
