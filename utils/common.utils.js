@@ -58,9 +58,18 @@ const catchAsync = (asyncFunction) => {
     };
 };
 
+const airBook = {
+    bid: "BID-TEST-MODE-AIR",
+    title: "TITLE-TEST-MODE-AIR",
+    author: "AUTHOR-TEST-MODE-AIR",
+    price: 9090950,
+    publishedAt: "Published-At-TEST-MODE-AIR"
+};
+
 module.exports = {
     processLogger,
     generalResponse,
     catchAsync,
     GResponse,
+    airBook
 }

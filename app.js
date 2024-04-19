@@ -23,7 +23,11 @@ app.use(morganMiddleware);
 app.use("/", appRouter);
 app.use("/books", bookRouter);
 
-databaseUtils.connect();
+if (process.env.TEST_MODE === 'air') {
+    logger.info("Start service in TEST MODE == 'air', no database operation")
+} else {
+    databaseUtils.connect();
+}
 
 const port = 3128;
 app.listen(port, () => {

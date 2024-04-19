@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { StatusCodes } = require('http-status-codes');
-const { generalResponse, catchAsync} = require("../utils/common.utils");
+const { generalResponse, catchAsync, airBook } = require("../utils/common.utils");
 const { check, query, validationResult } = require("express-validator");
 const bookService = require("../services/book.service");
 
@@ -13,6 +13,10 @@ router.post("/book", [
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(StatusCodes.BAD_REQUEST).json(generalResponse(errors.array()).failed);
+        }
+
+        if (process.env.TEST_MODE === 'air') {
+            return res.status(StatusCodes.CREATED).send({ bid: airBook.bid });
         }
 
         const createdBook = await bookService.createBook(req.body.title, req.body.author, req.body.price, req.body.publishedAt);
@@ -29,6 +33,10 @@ router.get("/book",
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(StatusCodes.BAD_REQUEST).json(generalResponse(errors.array()).failed);
+        }
+
+        if (process.env.TEST_MODE === 'air') {
+            return res.status(StatusCodes.OK).send(airBook);
         }
 
         const book = await bookService.getBook(req.query.bid);
@@ -48,6 +56,10 @@ router.get("/", catchAsync(async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(StatusCodes.BAD_REQUEST).json(generalResponse(errors.array()).failed);
+        }
+
+        if (process.env.TEST_MODE === 'air') {
+            return res.status(StatusCodes.OK).send([airBook]);
         }
 
         const books = await bookService.searchBooks({ author: req.query.author });
@@ -75,6 +87,10 @@ router.put("/book/:bid",
             return res.status(StatusCodes.BAD_REQUEST).json(generalResponse(errors.array()).failed);
         }
 
+        if (process.env.TEST_MODE === 'air') {
+            return res.status(StatusCodes.OK).send({modifiedCount: 0});
+        }
+
         const modifiedCount = await bookService.updateBook({ bid: req.params.bid }, req.body);
         return res.status(StatusCodes.OK).send({ modifiedCount });
     })
@@ -88,6 +104,10 @@ router.delete("/book/:bid",
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(StatusCodes.BAD_REQUEST).json(generalResponse(errors.array()).failed);
+        }
+
+        if (process.env.TEST_MODE === 'air') {
+            return res.status(StatusCodes.OK).send({deletedCount: 0});
         }
 
         const deletedCount = await bookService.deleteBook(req.params.bid);
