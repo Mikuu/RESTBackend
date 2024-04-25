@@ -66,10 +66,15 @@ const airBook = {
     publishedAt: "Published-At-TEST-MODE-AIR"
 };
 
+const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 module.exports = {
     processLogger,
     generalResponse,
     catchAsync,
+    sleep,
     GResponse,
     airBook
 }
